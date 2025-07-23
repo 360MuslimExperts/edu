@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://edu.360muslimexperts.com/sitemap.xml
