@@ -91,7 +91,7 @@ header('X-XSS-Protection: 1; mode=block');
     <?php
       // TODO: Move $baseDir, $folders, $gradeDescriptions to a config file/array
       $baseDir = 'books';
-      $webBooksBase = '/education/books'; // new web root for books
+      $webBooksBase = 'https://360muslimexperts.com/education/books'; // updated to absolute URL
       // Define the folders and their display names
       $folders = [
           '9' => 'Grade 9',
@@ -189,7 +189,7 @@ header('X-XSS-Protection: 1; mode=block');
     <?php
       // Add notes section
       $notesBase = __DIR__ . '/notes';
-      $notesWebBase = '/education/notes'; // new web root for notes
+      $notesWebBase = 'https://360muslimexperts.com/education/notes'; // updated to absolute URL
       $grades = [9, 10, 11, 12];
       foreach ($grades as $grade) {
         $gradeDir = "$notesBase/$grade";
