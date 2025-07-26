@@ -3,7 +3,7 @@ include 'header.php';
 require_once __DIR__ . '/helpers.php';
 
 $notesRoot = __DIR__ . "/notes";
-$notesWebRoot = "/education/notes"; // new web root for notes
+$notesWebRoot = "https://360muslimexperts.com/education/notes"; // use absolute URL
 $grade = isset($_GET['grade']) ? basename($_GET['grade']) : '';
 $subject = isset($_GET['subject']) ? basename($_GET['subject']) : '';
 
@@ -101,7 +101,7 @@ if ($grade && !$subject) {
             <ul class="item-list" role="list">
                 <?php foreach ($items as $g): ?>
                     <li class="item-list__item">
-                        <a href="notes.php?grade=<?php echo urlencode($g); ?>" class="btn btn--secondary">
+                        <a href="books.php?grade=<?php echo urlencode($g); ?>" class="btn btn--secondary">
                             Notes for Grade <?php echo htmlspecialchars($g); ?>
                         </a>
                     </li>
