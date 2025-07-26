@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+      <meta name="robots" content="noindex">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Downloads - 360 Education</title>
@@ -136,9 +137,6 @@ header('X-XSS-Protection: 1; mode=block');
               foreach ($files as $file) {
                 $filePath = "$path/$file";
                 $filename = pathinfo($file, PATHINFO_FILENAME); // Get filename without extension
-                // Clean up filename (optional, similar to grade_books.php if needed)
-                // $filename = ucwords(strtolower(str_ireplace(['-'.$folder, '_'.$folder.'th'], '', $filename)));
-                // $filename = trim($filename, ' -_');
 
                 $extension = strtoupper(pathinfo($file, PATHINFO_EXTENSION)); // Get extension, uppercase
                 // Check file existence/readability before getting size
@@ -169,7 +167,7 @@ header('X-XSS-Protection: 1; mode=block');
                   // SVG download icon for crispness and accessibility
                   // Use currentColor for stroke if defined in CSS, otherwise keep explicit color
                   echo "<span class='download-icon' aria-hidden='true' style='margin-left:0.5em;display:inline-flex;align-items:center;'>";
-                  echo '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="display:block" xmlns="http://www.w3.org/2000/svg"><path d="M10 3v10m0 0l-4-4m4 4l4-4M4 17h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+                  echo '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 3v10m0 0l-4-4m4 4l4-4M4 17h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
                   echo "</span>";
                   echo "</a>";
                   echo "</li>";
@@ -215,7 +213,7 @@ header('X-XSS-Protection: 1; mode=block');
                 echo "<a href='" . htmlspecialchars($filePath) . "' download title='Download $filename' aria-label='Download $filename (PDF, $formattedSize)'>";
                 echo "<span class='item-title'>$filename</span>";
                 echo "<span class='file-meta'>(PDF, $formattedSize)</span>";
-                echo "<span class='download-icon' aria-hidden='true'><svg width='20' height='20' viewBox='0 0 20 20" fill="none" style="display:block" xmlns="http://www.w3.org/2000/svg"><path d='M10 3v10m0 0l-4-4m4 4l4-4M4 17h12' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg></span>";
+                echo "<span class='download-icon' aria-hidden='true'><svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M10 3v10m0 0l-4-4m4 4l4-4M4 17h12' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg></span>";
                 echo "</a>";
                 echo "</li>";
               }
@@ -244,6 +242,9 @@ header('X-XSS-Protection: 1; mode=block');
                 li.style.display = '';
                 found++;
               } else {
+                li.style.display = 'none';
+              }
+            });
                 li.style.display = 'none';
               }
             });

@@ -23,7 +23,7 @@ function isActive($page) {
           <a href="/" class="<?php echo isActive('index.php'); ?>"<?php if(isActive('index.php')) echo ' aria-current="page"'; ?>>Home</a>
         </li>
         <li>
-          <a href="downloads.php" class="<?php echo isActive('downloads.php'); ?>"<?php if(isActive('downloads.php')) echo ' aria-current="page"'; ?>>Downloads</a>
+          <a href="books.php" class="<?php echo isActive('books.php'); ?>"<?php if(isActive('books.php')) echo ' aria-current="page"'; ?>>Books</a>
         </li>
         <li>
           <a href="notes.php" class="<?php echo isActive('notes.php'); ?>"<?php if(isActive('notes.php')) echo ' aria-current="page"'; ?>>Notes</a>
