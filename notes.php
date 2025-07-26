@@ -3,6 +3,7 @@ include 'header.php';
 require_once __DIR__ . '/helpers.php';
 
 $notesRoot = __DIR__ . "/notes";
+$notesWebRoot = "/education/notes"; // new web root for notes
 $grade = isset($_GET['grade']) ? basename($_GET['grade']) : '';
 $subject = isset($_GET['subject']) ? basename($_GET['subject']) : '';
 
@@ -120,7 +121,7 @@ if ($grade && !$subject) {
             <ul class="item-list" role="list">
                 <?php foreach ($items as $file):
                     $display = ucwords(str_replace(['_', '-'], ' ', pathinfo($file, PATHINFO_FILENAME)));
-                    $fileUrl = "notes/$grade/$subject/" . rawurlencode($file);
+                    $fileUrl = $notesWebRoot . "/$grade/$subject/" . rawurlencode($file);
                     $viewUrl = "view-pdf.php?file=" . rawurlencode("notes/$grade/$subject/$file");
                     $fileSize = filesize("$notesRoot/$grade/$subject/$file");
                     $formattedSize = $fileSize ? formatBytes($fileSize) : 'N/A';

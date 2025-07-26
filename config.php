@@ -5,5 +5,5 @@ define('BREVO_API_KEY', 'xkeysib-3491cbc6c0d5ed46234c72811f689b1bc4d1f314e84e889
 define('BREVO_LIST_ID', 9);
 
 // Example: user-specific directories for filemanager
-$directories_users = array('volunter' => '/notes');
+$directories_users = array('volunter' => '/education/notes');
 ?>

@@ -91,6 +91,7 @@ header('X-XSS-Protection: 1; mode=block');
     <?php
       // TODO: Move $baseDir, $folders, $gradeDescriptions to a config file/array
       $baseDir = 'books';
+      $webBooksBase = '/education/books'; // new web root for books
       // Define the folders and their display names
       $folders = [
           '9' => 'Grade 9',
@@ -111,6 +112,7 @@ header('X-XSS-Protection: 1; mode=block');
       foreach ($folders as $folder => $heading) {
         $isLastFolder = ($folder === array_key_last($folders)); // Check if it's the last folder
         $path = "$baseDir/$folder";
+        $webPath = "$webBooksBase/$folder";
         if (is_dir($path)) {
           echo "<section class='download-section' aria-labelledby='section-$folder'>";
           echo "<h2 id='section-$folder'>$heading</h2>";
@@ -159,7 +161,7 @@ header('X-XSS-Protection: 1; mode=block');
               // Output each file as a list item
               foreach ($fileList as $fileData) {
                   $safeName = htmlspecialchars($fileData['name']);
-                  $safePath = htmlspecialchars($fileData['path']);
+                  $safePath = htmlspecialchars($webPath . '/' . rawurlencode($fileData['name'] . '.' . strtolower($fileData['ext'])));
                   echo "<li class='download-item'>";
                   echo "<a href='{$safePath}' download title='Download {$safeName}' aria-label='Download {$safeName} ({$fileData['ext']}, {$fileData['size']})'>";
                   echo "<span class='item-title'>{$safeName}</span>";
@@ -187,7 +189,7 @@ header('X-XSS-Protection: 1; mode=block');
     <?php
       // Add notes section
       $notesBase = __DIR__ . '/notes';
-      $notesWebBase = 'notes';
+      $notesWebBase = '/education/notes'; // new web root for notes
       $grades = [9, 10, 11, 12];
       foreach ($grades as $grade) {
         $gradeDir = "$notesBase/$grade";

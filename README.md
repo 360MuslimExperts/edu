@@ -13,8 +13,8 @@ This project provides free access to official Punjab Curriculum & Textbook Board
 - **Accessibility**: Skip links, ARIA labels, and visually hidden elements for screen readers.
 
 ## Directory Structure
-- `/books/` — PDF textbooks organized by grade.
-- `/notes/` — PDF notes organized by grade and subject.
+- `/education/books/` — PDF textbooks organized by grade.
+- `/education/notes/` — PDF notes organized by grade and subject.
 - `/assets/` — Images and static assets.
 - `/white-css/` — Light theme CSS files.
 - `/style.css`, `/header-footer.css`, `/view-pdf.css` — Main stylesheets.
