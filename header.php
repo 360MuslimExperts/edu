@@ -5,7 +5,7 @@ function isActive($page) {
 ?>
 <header class="site-header" role="banner">
   <div class="container">
-    <a href="/index.php" class="logo-link" aria-label="360 Education Home">
+    <a href="/" class="logo-link" aria-label="360 Education Home">
       <img src="https://360muslimexperts.com/assets/school-logo.png" alt="360 Muslim Experts Logo" class="logo" width="50" height="50" loading="lazy" />
       <span class="site-title">360 Education</span>
     </a>
@@ -20,7 +20,7 @@ function isActive($page) {
     <nav class="navbar" id="navbar-menu" role="navigation" aria-label="Main navigation">
       <ul>
         <li>
-          <a href="index.php" class="<?php echo isActive('index.php'); ?>"<?php if(isActive('index.php')) echo ' aria-current="page"'; ?>>Home</a>
+          <a href="/" class="<?php echo isActive('index.php'); ?>"<?php if(isActive('index.php')) echo ' aria-current="page"'; ?>>Home</a>
         </li>
         <li>
           <a href="downloads.php" class="<?php echo isActive('downloads.php'); ?>"<?php if(isActive('downloads.php')) echo ' aria-current="page"'; ?>>Downloads</a>
