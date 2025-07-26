@@ -6,7 +6,7 @@ function isActive($page) {
 <header class="site-header" role="banner">
   <div class="container">
     <a href="/index.php" class="logo-link" aria-label="360 Education Home">
-      <img src="school-logo.png" alt="360 Muslim Experts Logo" class="logo" width="50" height="50" loading="lazy" />
+      <img src="https://360muslimexperts.com/assets/school-logo.png" alt="360 Muslim Experts Logo" class="logo" width="50" height="50" loading="lazy" />
       <span class="site-title">360 Education</span>
     </a>
     <!-- Hamburger menu toggle -->
