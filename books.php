@@ -30,7 +30,7 @@ function safeFetchJson($url) {
 function fetchBooksForGrade($folders) {
     $allBooks = [];
     foreach ($folders as $folder) {
-        $apiUrl = "https://360muslimexperts.com/panel/books_api.php?grade=" . rawurlencode($folder);
+        $apiUrl = "https://360muslimexperts.com/panel/edu_api.php?type=books&grade=" . rawurlencode($folder);
         $data = safeFetchJson($apiUrl);
         if ($data && !isset($data['error'])) {
             foreach ($data as $item) {
@@ -48,12 +48,9 @@ function fetchBooksForGrade($folders) {
 }
 
 // --- Helper: render each list item ---
-function generateListItem($file, $url, $size, $identifiers) {
+function generateListItem($file, $url, $size) {
+    // Get the filename without the extension.
     $name = pathinfo($file, PATHINFO_FILENAME);
-    foreach ($identifiers as $id) {
-        $name = str_ireplace($id, '', $name);
-    }
-    $name = ucwords(trim(preg_replace('/[_-]+/', ' ', $name)));
     $formattedSize = is_numeric($size) ? formatBytes($size) : 'N/A';
 
     $output = '<li class="item-list__item">';
@@ -117,7 +114,6 @@ if (!$gradeKey) {
 } else {
     $pageHeading = "Grade $gradeKey Books";
     $pageTitle = "$pageHeading - 360 Education";
-    $gradeIdentifiers = ["-$gradeKey", "_{$gradeKey}th", "{$gradeKey}-" . ((int)$gradeKey + 1)];
 
     $books = fetchBooksForGrade($mergedFolders[$gradeKey]);
 
@@ -126,7 +122,7 @@ if (!$gradeKey) {
     } else {
         echo '<ul class="item-list" role="list">';
         foreach ($books as $entry) {
-            echo generateListItem($entry['file'], $entry['url'], $entry['size'], $gradeIdentifiers);
+            echo generateListItem($entry['file'], $entry['url'], $entry['size']);
         }
         echo '</ul>';
     }
