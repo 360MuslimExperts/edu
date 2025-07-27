@@ -6,36 +6,73 @@ header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: strict-origin-when-cross-origin');
 header('X-XSS-Protection: 1; mode=block');
 
+// --- Sanitize and validate PDF file parameter ---
+$fileUrl = filter_input(INPUT_GET, 'file', FILTER_SANITIZE_URL);
+
+// --- PDF Proxy ---
+// If 'proxy=1' is in the URL, this script fetches the remote PDF and serves it.
+// This is necessary to bypass browser Cross-Origin (CORS) restrictions when the
+// PDF viewer (on this domain) tries to load a file from another domain.
+if (isset($_GET['proxy']) && $_GET['proxy'] === '1') {
+    if (!$fileUrl || !filter_var($fileUrl, FILTER_VALIDATE_URL)) {
+        http_response_code(400);
+        die('Error: Invalid PDF URL specified for proxy.');
+    }
+
+    $parsedUrl = parse_url($fileUrl);
+    // Security: Only proxy files from the allowed domain.
+    if (!isset($parsedUrl['host']) || !in_array($parsedUrl['host'], ['360muslimexperts.com', 'www.360muslimexperts.com'])) {
+        http_response_code(403);
+        die('Error: Access denied. Proxy can only fetch from allowed domains.');
+    }
+
+    // Use cURL for a more robust request.
+    $ch = curl_init($fileUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 45); // Increased timeout for large files
+    $pdfContent = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($httpCode !== 200 || $pdfContent === false) {
+        http_response_code(502); // Bad Gateway
+        die('Error: Could not fetch the PDF file from the remote server.');
+    }
+
+    // Serve the fetched PDF content to the browser.
+    header('Content-Type: application/pdf');
+    header('Content-Length: ' . strlen($pdfContent));
+    header('Content-Disposition: inline; filename="' . basename($parsedUrl['path']) . '"');
+    echo $pdfContent;
+    exit;
+}
+
 // Initialize an error message variable
 $errorMsg = '';
 $pageTitle = "PDF Viewer - 360 Education"; // Default title
 $fileName = ''; // Initialize fileName
 $pdfPathForJs = ''; // Initialize path for JS
 
-// Sanitize and validate PDF file parameter
-$file = isset($_GET['file']) ? rawurldecode($_GET['file']) : '';
-
-if (!$file || !preg_match('/\.pdf$/i', $file)) {
-    $errorMsg = 'Invalid PDF file specified. The file must have a .pdf extension.';
+if (!$fileUrl || !filter_var($fileUrl, FILTER_VALIDATE_URL)) {
+    $errorMsg = 'Invalid PDF URL specified.';
 } else {
-    // Remove directory traversal attempts and null bytes
-    $file = str_replace(['..', "\0"], '', $file);
-
-    // Ensure the path starts with 'books/' or 'notes/'
-    if (strpos($file, 'books/') !== 0 && strpos($file, 'notes/') !== 0) {
-        $errorMsg = 'Invalid PDF path. Access is restricted.';
+    $parsedUrl = parse_url($fileUrl);
+    // Security check: Ensure the file is from the allowed domain.
+    if (!isset($parsedUrl['host']) || !in_array($parsedUrl['host'], ['360muslimexperts.com', 'www.360muslimexperts.com'])) {
+        $errorMsg = 'Access denied. PDFs can only be loaded from the allowed domain.';
+    } elseif (!preg_match('/\.pdf$/i', $parsedUrl['path'])) {
+        $errorMsg = 'The file must have a .pdf extension.';
     } else {
-        $pdfPath = $file; // This is the relative path like 'books/grade/file.pdf' or 'notes/grade/subject/file.pdf'
-
-        if (!file_exists($pdfPath) || !is_file($pdfPath)) {
-            // Log this server-side for diagnostics if needed
-            // error_log("PDF Viewer: File not found or not a file - " . $pdfPath);
-            $errorMsg = 'PDF not found. The requested file may not exist or the path is incorrect.';
-        } else {
-            $fileName = basename($pdfPath);
-            $pageTitle = htmlspecialchars($fileName) . " - PDF Viewer";
-            $pdfPathForJs = htmlspecialchars($pdfPath, ENT_QUOTES, 'UTF-8');
-        }
+        // The URL is valid and from the correct domain.
+        $fileName = basename($parsedUrl['path']);
+        $pageTitle = htmlspecialchars(urldecode($fileName)) . " - PDF Viewer";
+        // Create a proxied URL to serve the PDF from our own domain to avoid CORS issues.
+        $proxiedUrl = 'view-pdf.php?proxy=1&file=' . rawurlencode($fileUrl);
+        // We pass the proxied URL directly to JavaScript.
+        // htmlspecialchars() is NOT used here because it would convert '&' to '&amp;',
+        // which breaks the URL parameter parsing for the fetch request made by PDF.js.
+        $pdfPathForJs = $proxiedUrl;
     }
 }
 ?>
@@ -71,7 +108,7 @@ if (!$file || !preg_match('/\.pdf$/i', $file)) {
 
 <?php else: ?><div class="pdf-viewer-body"> <!-- Apply themed body class -->
 <div id="header">
-  <div class="filename"><?php echo htmlspecialchars($fileName); ?></div>
+  <div class="filename"><?php echo htmlspecialchars(urldecode($fileName)); ?></div>
   <button id="downloadBtn" title="Download PDF">⬇ Download</button>
 </div>
 
@@ -94,8 +131,11 @@ if (!$file || !preg_match('/\.pdf$/i', $file)) {
 
 <script>
 (function() { // IIFE Start
-  const url = "<?php echo $pdfPathForJs; // Already HTML-escaped in PHP ?>";
-
+  // The URLs are passed directly from PHP. We avoid htmlspecialchars on the PHP side
+  // because it would break the URL structure by converting '&' to '&amp;'.
+  const proxiedUrl = "<?php echo $pdfPathForJs; ?>";
+  const originalUrl = "<?php echo $fileUrl; ?>";
+  
   // PDF.js worker source
   let pdfDoc = null,
       pageNum = 1,
@@ -204,14 +244,14 @@ if (!$file || !preg_match('/\.pdf$/i', $file)) {
 
   // Download button
   document.getElementById('downloadBtn').addEventListener('click', () => {
-    window.open(url, '_blank');
+    window.open(originalUrl, '_blank');
   });
 
   // Load PDF
   // Consider self-hosting pdf.worker.min.js for production to avoid CDN dependency/issues.
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-  pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
+  pdfjsLib.getDocument(proxiedUrl).promise.then(pdfDoc_ => {
     pdfDoc = pdfDoc_;
     pageCount = pdfDoc.numPages;
     pageCountSpan.textContent = ` / ${pageCount}`;
