@@ -1,44 +1,61 @@
 <?php
-include 'header.php';
 require_once __DIR__ . '/helpers.php';
 
-$grade = isset($_GET['grade']) ? basename($_GET['grade']) : '';
-$subject = isset($_GET['subject']) ? basename($_GET['subject']) : '';
+// --- Configuration ---
+$visibleGrades = ['9', '10', '11', '12'];
+$apiBase = 'https://360muslimexperts.com/panel/edu_api.php';
 
-$pageTitle = "Notes";
+// --- Get parameters from URL ---
+$grade = filter_input(INPUT_GET, 'grade', FILTER_SANITIZE_STRING);
+$subject = filter_input(INPUT_GET, 'subject', FILTER_SANITIZE_STRING);
+
+// --- Determine page state ---
 $errorMsg = '';
 $items = [];
-$mode = 'grades';
+$mode = 'grades'; // Default mode
 
-$apiBase = 'https://360muslimexperts.com/panel/notes_api.php';
-$query = http_build_query(array_filter(['grade' => $grade, 'subject' => $subject]));
-$apiUrl = $apiBase . ($query ? "?$query" : '');
-
-$response = @file_get_contents($apiUrl);
-$data = json_decode($response, true);
-
-$data = json_decode($response, true);
-if (!$response || !$data || !is_array($data)) {
-    $errorMsg = 'Could not load notes.';
-} elseif (isset($data['error'])) {
-    $errorMsg = $data['error'];
+if ($grade && $subject) {
+    $mode = 'files';
+} elseif ($grade) {
+    $mode = 'subjects';
 }
- else {
-    if ($grade && $subject) {
-        $mode = 'files';
-        $items = array_filter($data, fn($item) => $item['type'] === 'file');
-    } elseif ($grade) {
-        $mode = 'subjects';
-        $items = array_filter($data, fn($item) => $item['type'] === 'folder');
+
+// --- Fetch data based on mode ---
+if ($mode !== 'grades') {
+    if (!in_array($grade, $visibleGrades)) {
+        $errorMsg = 'Invalid grade specified.';
+        $mode = 'error';
     } else {
-        $mode = 'grades';
-        $items = array_filter($data, fn($item) => $item['type'] === 'folder');
+        $queryParams = ['type' => 'notes', 'grade' => $grade];
+        if ($mode === 'files') {
+            $queryParams['subject'] = $subject;
+        }
+        $apiUrl = $apiBase . '?' . http_build_query($queryParams);
+
+        $context = stream_context_create(['http' => ['timeout' => 5]]);
+        $response = @file_get_contents($apiUrl, false, $context);
+        $data = $response ? json_decode($response, true) : null;
+
+        if (!$data || !is_array($data)) {
+            $errorMsg = 'Could not load notes from the server.';
+        } elseif (isset($data['error'])) {
+            $errorMsg = htmlspecialchars($data['error']);
+        } else {
+            $filterType = ($mode === 'files') ? 'file' : 'folder';
+            $items = array_filter($data, fn($item) => $item['type'] === $filterType);
+            if (empty($items) && $mode === 'files') {
+                $errorMsg = 'No notes found for this subject yet.';
+            } elseif (empty($items) && $mode === 'subjects') {
+                $errorMsg = 'No subjects found for this grade yet.';
+            }
+        }
     }
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <?php include 'header.php'; // Include header inside head for proper structure ?>
     <meta charset="UTF-8" />
     <title>Notes<?php if($grade) echo " - Grade $grade"; if($subject) echo " - " . ucfirst($subject); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -65,13 +82,13 @@ if (!$response || !$data || !is_array($data)) {
     </section>
     <section class="content centered">
         <?php if ($errorMsg): ?>
-            <div class="message message--error"><?php echo $errorMsg; ?></div>
+            <div class="message message--error"><?php echo htmlspecialchars($errorMsg); ?></div>
         <?php elseif ($mode === 'grades'): ?>
-            <ul class="item-list">
-                <?php foreach ($items as $item): ?>
+            <ul class="item-list grade-selector">
+                <?php foreach ($visibleGrades as $g): ?>
                 <li class="item-list__item">
-                    <a href="notes.php?grade=<?php echo urlencode($item['name']); ?>" class="btn btn--secondary">
-                        Notes for Grade <?php echo htmlspecialchars($item['name']); ?>
+                    <a href="notes.php?grade=<?php echo urlencode($g); ?>" class="btn btn--primary">
+                        Grade <?php echo htmlspecialchars($g); ?> Notes
                     </a>
                 </li>
                 <?php endforeach; ?>
@@ -81,7 +98,7 @@ if (!$response || !$data || !is_array($data)) {
                 <?php foreach ($items as $item): ?>
                 <li class="item-list__item">
                     <a href="notes.php?grade=<?php echo urlencode($grade); ?>&subject=<?php echo urlencode($item['name']); ?>" class="btn btn--primary">
-                        <?php echo htmlspecialchars(ucfirst($item['name'])); ?> Notes for Grade <?php echo htmlspecialchars($grade); ?>
+                        <?php echo htmlspecialchars(ucfirst($item['name'])); ?>
                     </a>
                 </li>
                 <?php endforeach; ?>
@@ -98,8 +115,8 @@ if (!$response || !$data || !is_array($data)) {
                         <span class="file-meta">(<?php echo $formattedSize; ?>)</span>
                     </div>
                     <div class="item-list__actions download-actions">
-                        <a href="<?php echo $file['url']; ?>" class="btn btn--primary" target="_blank" rel="noopener noreferrer">View PDF</a>
-                        <a href="<?php echo $file['url']; ?>" class="btn btn--primary" download>Download PDF</a>
+                        <a href="view-pdf.php?file=<?php echo rawurlencode($file['url']); ?>" class="btn btn--primary" target="_blank" rel="noopener">View PDF</a>
+                        <a href="<?php echo htmlspecialchars($file['url']); ?>" class="btn btn--primary" download>Download PDF</a>
                     </div>
                 </li>
                 <?php endforeach; ?>
