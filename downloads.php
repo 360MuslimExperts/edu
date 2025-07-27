@@ -1,7 +1,17 @@
+<?php
+// --- SETUP AND HELPERS ---
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/helpers.php';
+
+// Security headers - MUST be before any output
+header('X-Frame-Options: SAMEORIGIN');
+header('X-Content-Type-Options: nosniff');
+header('Referrer-Policy: strict-origin-when-cross-origin');
+header('X-XSS-Protection: 1; mode=block');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-      <meta name="robots" content="noindex">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Downloads - 360 Education</title>
@@ -65,15 +75,6 @@
 <body>
 <a href="#main-content" class="visually-hidden focusable skip-link">Skip to main content</a>
 <?php include 'header.php'; ?>
-<?php
-require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/helpers.php';
-// Security headers
-header('X-Frame-Options: SAMEORIGIN');
-header('X-Content-Type-Options: nosniff');
-header('Referrer-Policy: strict-origin-when-cross-origin');
-header('X-XSS-Protection: 1; mode=block');
-?>
   <main class="downloads-page" id="main-content" role="main">
     <section class="page-title-section">
       <h2>Download Your Books & Notes</h2>
@@ -89,177 +90,175 @@ header('X-XSS-Protection: 1; mode=block');
       </noscript>
     </section>
 
-    <?php
-      // TODO: Move $baseDir, $folders, $gradeDescriptions to a config file/array
-      $baseDir = 'books';
-      $webBooksBase = 'https://360muslimexperts.com/education/books'; // updated to absolute URL
-      // Define the folders and their display names
-      $folders = [
-          '9' => 'Grade 9',
-          '10' => 'Grade 10',
-          '9-10' => 'Grade (9 & 10)',
-          '11' => 'Grade 11',
-          '12' => 'Grade 12',
-          '11-12' => 'Grade (11 & 12)'
-      ];
-      $gradeDescriptions = [
-        '9' => 'All official textbooks and guides for Grade 9.',
-        '10' => 'All official textbooks and guides for Grade 10.',
-        '9-10' => 'Combined resources for Grades 9 & 10.',
-        '11' => 'All official textbooks and guides for Grade 11 (FSc Part 1).',
-        '12' => 'All official textbooks and guides for Grade 12 (FSc Part 2).',
-        '11-12' => 'Combined resources for Grades 11 & 12.'
-      ];
-      foreach ($folders as $folder => $heading) {
-        $isLastFolder = ($folder === array_key_last($folders)); // Check if it's the last folder
-        $path = "$baseDir/$folder";
-        $webPath = "$webBooksBase/$folder";
-        if (is_dir($path)) {
-          echo "<section class='download-section' aria-labelledby='section-$folder'>";
-          echo "<h2 id='section-$folder'>$heading</h2>";
-          if (isset($gradeDescriptions[$folder])) {
-            // Use class instead of inline style
-            echo "<p class='section-desc' style='color:var(--clr-text-secondary);margin-bottom:1rem;font-size:1rem;'>" . $gradeDescriptions[$folder] . "</p>";
-          }
+<?php
+// --- Helper: safely fetch JSON data from URL ---
+function safeFetchJson($url) {
+    $context = stream_context_create(['http' => ['timeout' => 5]]);
+    $response = @file_get_contents($url, false, $context);
+    if (!$response) return null;
+    $data = json_decode($response, true);
+    return is_array($data) ? $data : null;
+}
 
-          // Scan the directory for files
-          $files = array_filter(scandir($path), function ($file) use ($path) {
-              return is_file("$path/$file");
-          });
+// --- Helper: render a download section ---
+function render_download_section($title, $items, $description = '') {
+    if (empty($items)) {
+        return; // Don't render empty sections
+    }
 
-          // Check if any files were found for this grade
-          if (empty($files)) {
-              echo "<p class='message message--info'>No books found for this grade yet.</p>";
-          } else {
-              $fileList = []; // Array to hold file details for potential sorting later
+    $sectionId = 'section-' . strtolower(preg_replace('/[^a-zA-Z0-9]+/', '-', $title));
 
-              // Process each item found in the directory
-              foreach ($files as $file) {
-                $filePath = "$path/$file";
-                $filename = pathinfo($file, PATHINFO_FILENAME); // Get filename without extension
+    $output = "<section class='download-section' aria-labelledby='{$sectionId}'>";
+    $output .= "<h2 id='{$sectionId}'>" . htmlspecialchars($title) . "</h2>";
+    if ($description) {
+        $output .= "<p class='section-desc' style='color:var(--clr-text-secondary);margin-bottom:1rem;font-size:1rem;'>" . htmlspecialchars($description) . "</p>";
+    }
+    $output .= "<ul class='download-list' role='list'>";
 
-                $extension = strtoupper(pathinfo($file, PATHINFO_EXTENSION)); // Get extension, uppercase
-                // Check file existence/readability before getting size
-                $filesize = (is_readable($filePath)) ? filesize($filePath) : false;
-
-                // Add file details to our list (only if PDF, for example)
-                $fileList[] = [
-                    'path' => $filePath,
-                    'name' => $filename,
-                    'ext' => $extension,
-                    'size' => $filesize !== false ? formatBytes($filesize) : 'N/A' // Format size or show N/A on error
-                ];
-              }
-
-              // Optional: Sort files alphabetically by name (case-insensitive)
-              usort($fileList, function($a, $b) { return strcasecmp($a['name'], $b['name']); });
-
-              echo "<h3 class='visually-hidden'>List of downloadable books for $heading</h3>";
-              echo "<ul class='download-list' role='list'>";
-              // Output each file as a list item
-              foreach ($fileList as $fileData) {
-                  $safeName = htmlspecialchars($fileData['name']);
-                  $safePath = htmlspecialchars($webPath . '/' . rawurlencode($fileData['name'] . '.' . strtolower($fileData['ext'])));
-                  echo "<li class='download-item'>";
-                  echo "<a href='{$safePath}' download title='Download {$safeName}' aria-label='Download {$safeName} ({$fileData['ext']}, {$fileData['size']})'>";
-                  echo "<span class='item-title'>{$safeName}</span>";
-                  echo "<span class='file-meta'>({$fileData['ext']}, {$fileData['size']})</span>";
-                  // SVG download icon for crispness and accessibility
-                  // Use currentColor for stroke if defined in CSS, otherwise keep explicit color
-                  echo "<span class='download-icon' aria-hidden='true' style='margin-left:0.5em;display:inline-flex;align-items:center;'>";
-                  echo '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 3v10m0 0l-4-4m4 4l4-4M4 17h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-                  echo "</span>";
-                  echo "</a>";
-                  echo "</li>";
-              }
-              echo "</ul>";
-          }
-          echo "</section>";
-          // Add divider using class, only if not the last section
-          if (!$isLastFolder) {
-              echo "<hr class='section-divider' />"; // Style this class in style.css
-          }
-        } else {
-            echo "<p class='message message--error'>Directory for $heading not found.</p>";
-        }
-      }
-    ?>
-    <?php
-      // Add notes section
-      $notesBase = __DIR__ . '/notes';
-      $notesWebBase = 'https://360muslimexperts.com/education/notes'; // updated to absolute URL
-      $grades = [9, 10, 11, 12];
-      foreach ($grades as $grade) {
-        $gradeDir = "$notesBase/$grade";
-        if (is_dir($gradeDir)) {
-          $subjects = array_filter(scandir($gradeDir), function($d) use ($gradeDir) {
-            return $d[0] !== '.' && is_dir("$gradeDir/$d");
-          });
-          foreach ($subjects as $subject) {
-            $subjectDir = "$gradeDir/$subject";
-            $files = array_filter(scandir($subjectDir), function($f) use ($subjectDir) {
-              return is_file("$subjectDir/$f") && strtolower(pathinfo($f, PATHINFO_EXTENSION)) === 'pdf';
-            });
-            if (!empty($files)) {
-              echo "<section class='download-section' aria-labelledby='notes-$grade-$subject'>";
-              echo "<h2 id='notes-$grade-$subject'>Notes: Grade $grade - " . htmlspecialchars(ucfirst($subject)) . "</h2>";
-              echo "<ul class='download-list' role='list'>";
-              foreach ($files as $file) {
-                $filename = ucwords(str_replace(['_', '-'], ' ', pathinfo($file, PATHINFO_FILENAME)));
-                $filePath = "$notesWebBase/$grade/$subject/" . rawurlencode($file);
-                $fileSize = filesize("$subjectDir/$file");
-                $formattedSize = $fileSize ? formatBytes($fileSize) : 'N/A';
-                echo "<li class='download-item'>";
-                echo "<a href='" . htmlspecialchars($filePath) . "' download title='Download $filename' aria-label='Download $filename (PDF, $formattedSize)'>";
-                echo "<span class='item-title'>$filename</span>";
-                echo "<span class='file-meta'>(PDF, $formattedSize)</span>";
-                echo "<span class='download-icon' aria-hidden='true'><svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M10 3v10m0 0l-4-4m4 4l4-4M4 17h12' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg></span>";
-                echo "</a>";
-                echo "</li>";
-              }
-              echo "</ul>";
-              echo "</section>";
-            }
-          }
-        }
-      }
-    ?>
-    <script>
-    // Unified search for books and notes
-    document.addEventListener('DOMContentLoaded', function() {
-      var searchInput = document.getElementById('search-input');
-      var allSections = Array.from(document.querySelectorAll('.download-section'));
-      var allLists = Array.from(document.querySelectorAll('.download-list'));
-      var noResults = document.getElementById('no-results-message');
-      if (searchInput) {
-        searchInput.addEventListener('input', function() {
-          var filter = searchInput.value.trim().toLowerCase();
-          var found = 0;
-          allLists.forEach(function(list) {
-            Array.from(list.children).forEach(function(li) {
-              var text = li.textContent.toLowerCase();
-              if (text.includes(filter)) {
-                li.style.display = '';
-                found++;
-              } else {
-                li.style.display = 'none';
-              }
-            });
-                li.style.display = 'none';
-              }
-            });
-          });
-          // Hide sections with no visible items
-          allSections.forEach(function(section) {
-            var visible = section.querySelectorAll('.download-list li:not([style*="display: none"])').length;
-            section.style.display = visible ? '' : 'none';
-          });
-          noResults.style.display = found === 0 ? 'block' : 'none';
-        });
-      }
+    // Sort items alphabetically by name
+    usort($items, function($a, $b) {
+        return strcasecmp($a['name'], $b['name']);
     });
-    </script>
+
+    foreach ($items as $item) {
+        $displayName = ucwords(str_replace(['_', '-'], ' ', pathinfo($item['name'], PATHINFO_FILENAME)));
+        $fileUrl = htmlspecialchars($item['url']);
+        $fileSize = isset($item['size']) ? formatBytes($item['size']) : 'N/A';
+        $fileExt = strtoupper(pathinfo($item['name'], PATHINFO_EXTENSION));
+
+        $output .= "<li class='download-item'>";
+        $output .= "<a href='{$fileUrl}' download title='Download {$displayName}' aria-label='Download {$displayName} ({$fileExt}, {$fileSize})'>";
+        $output .= "<span class='item-title'>{$displayName}</span>";
+        $output .= "<span class='file-meta'>({$fileExt}, {$fileSize})</span>";
+        $output .= "<span class='download-icon' aria-hidden='true' style='margin-left:0.5em;display:inline-flex;align-items:center;'>";
+        $output .= '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 3v10m0 0l-4-4m4 4l4-4M4 17h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        $output .= "</span></a></li>";
+    }
+
+    $output .= "</ul></section>";
+    return $output;
+}
+
+// --- Configuration ---
+$grades = ['9', '10', '11', '12'];
+$mergedBookFolders = [
+    '9'  => ['9', '9-10'],
+    '10' => ['10', '9-10'],
+    '11' => ['11', '11-12'],
+    '12' => ['12', '11-12']
+];
+$apiBase = 'https://360muslimexperts.com/panel/edu_api.php';
+$anyContentFound = false;
+
+// --- Main Loop ---
+foreach ($grades as $i => $grade) {
+    // --- Fetch and Display Books ---
+    $allBooks = [];
+    $foldersToFetch = $mergedBookFolders[$grade] ?? [$grade];
+    foreach ($foldersToFetch as $folder) {
+        $apiUrl = "$apiBase?type=books&grade=" . rawurlencode($folder);
+        $data = safeFetchJson($apiUrl);
+        if ($data && !isset($data['error'])) {
+            foreach ($data as $item) {
+                if ($item['type'] === 'file' && !empty($item['url'])) {
+                    // Use URL as key to prevent duplicates
+                    $allBooks[$item['url']] = [
+                        'name' => $item['name'],
+                        'url'  => $item['url'],
+                        'size' => $item['size'] ?? 0,
+                    ];
+                }
+            }
+        }
+    }
+    $books = array_values($allBooks);
+    if (!empty($books)) {
+        $anyContentFound = true;
+        echo render_download_section(
+            "Grade $grade Books",
+            $books,
+            "Official PCTB textbooks for Grade $grade."
+        );
+    }
+
+    // --- Fetch and Display Notes ---
+    $subjectsApiUrl = "$apiBase?type=notes&grade=" . rawurlencode($grade);
+    $subjectsData = safeFetchJson($subjectsApiUrl);
+
+    if ($subjectsData && !isset($subjectsData['error'])) {
+        $subjects = array_filter($subjectsData, fn($item) => $item['type'] === 'folder');
+
+        foreach ($subjects as $subject) {
+            $subjectName = $subject['name'];
+            $notesApiUrl = "$apiBase?type=notes&grade=" . rawurlencode($grade) . "&subject=" . rawurlencode($subjectName);
+            $notesData = safeFetchJson($notesApiUrl);
+
+            $allNotes = [];
+            if ($notesData && !isset($notesData['error'])) {
+                foreach ($notesData as $item) {
+                    if ($item['type'] === 'file' && !empty($item['url'])) {
+                        $allNotes[$item['url']] = [
+                            'name' => $item['name'],
+                            'url'  => $item['url'],
+                            'size' => $item['size'] ?? 0,
+                        ];
+                    }
+                }
+            }
+
+            $notes = array_values($allNotes);
+            if (!empty($notes)) {
+                $anyContentFound = true;
+                echo render_download_section(
+                    "Grade $grade " . ucfirst($subjectName) . " Notes",
+                    $notes,
+                    "Chapter-wise notes for " . ucfirst($subjectName) . "."
+                );
+            }
+        }
+    }
+
+    // Add a divider if it's not the last grade
+    if ($i < count($grades) - 1) {
+        echo "<hr class='section-divider' />";
+    }
+} // end foreach grade
+
+if (!$anyContentFound) {
+    echo "<p class='message message--info'>No books or notes found at the moment. Please check back later.</p>";
+}
+?>
   </main>
+  <script>
+  // Unified search for books and notes
+  document.addEventListener('DOMContentLoaded', function() {
+    var searchInput = document.getElementById('search-input');
+    var noResults = document.getElementById('no-results-message');
+    var allSections = document.querySelectorAll('.download-section');
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        var filter = searchInput.value.trim().toLowerCase();
+        var found = 0;
+        allSections.forEach(function(section) {
+          var sectionFound = false;
+          var listItems = section.querySelectorAll('.download-list li');
+          listItems.forEach(function(li) {
+            var text = li.textContent.toLowerCase();
+            if (text.includes(filter)) {
+              li.style.display = '';
+              sectionFound = true;
+              found++;
+            } else {
+              li.style.display = 'none';
+            }
+          });
+          section.style.display = sectionFound ? '' : 'none';
+        });
+        noResults.style.display = found === 0 ? 'block' : 'none';
+      });
+    }
+  });
+  </script>
   <?php include 'footer.php'; ?>
 </body>
 </html>
