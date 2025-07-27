@@ -37,7 +37,7 @@ if ($mode !== 'grades') {
         $data = $response ? json_decode($response, true) : null;
 
         if (!$data || !is_array($data)) {
-            $errorMsg = 'Could not load notes from the server.';
+            $errorMsg = 'No notes available yet.';
         } elseif (isset($data['error'])) {
             $errorMsg = htmlspecialchars($data['error']);
         } else {
