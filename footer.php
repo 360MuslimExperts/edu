@@ -29,7 +29,7 @@
 
     <p>&copy; <?php echo date("Y"); ?> |
       <a href="https://360muslimexperts.com" aria-label="Visit 360 Muslim Experts website" class="footer-link">360 Muslim Experts</a> |
-      <a href="https://ibt.360muslimexperts.com" target="_blank" aria-label="Made by Ibtisam" class="footer-link">Made by Ibtisam</a>
+      <a href="https://salamprojects.github.io/" target="_blank" aria-label="Made by Ibtisam" class="footer-link">Made by Salam Projects</a>
     </p>
 
     <div class="back-to-top">
