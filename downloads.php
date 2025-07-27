@@ -13,6 +13,7 @@ header('X-XSS-Protection: 1; mode=block');
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+   <meta name="robots" content="index, follow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Downloads - 360 Education</title>
   <meta name="description" content="Download 2025 new books, PCTB new syllabus, official Punjab Textbook Board (PCTB) textbooks, notes, past papers, model papers, guess papers, solved exercises, and study material for Matric, FSC, and all grades. Free PDF downloads for Urdu and English medium.">
