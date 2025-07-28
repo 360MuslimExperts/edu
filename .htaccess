@@ -1,6 +1,12 @@
 RewriteEngine On
 
+# Downloads
 RewriteRule ^downloads$ downloads.php [L]
+
+# Notes
 RewriteRule ^notes$ notes.php [L]
 RewriteRule ^notes/(9|10|11|12)$ notes.php?grade=$1 [L]
+
+# Books
+RewriteRule ^books$ books.php [L]
 RewriteRule ^books/(9|10|11|12)$ books.php?grade=$1 [L]
