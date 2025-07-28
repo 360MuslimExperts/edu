@@ -5,7 +5,7 @@ RewriteRule ^downloads$ downloads.php [L]
 
 # Notes
 RewriteRule ^notes$ notes.php [L]
-RewriteRule ^notes/(9|10|11|12)$ notes.php?grade=$1 [L]
+RewriteRule ^notes/(9|10|11|12)/([a-zA-Z0-9_-]+)$ notes.php?grade=$1&subject=$2 [L]
 
 # Books
 RewriteRule ^books$ books.php [L]
