@@ -1,4 +1,5 @@
 RewriteEngine On
 
-# Clean URL for /downloads
 RewriteRule ^downloads$ downloads.php [L]
+RewriteRule ^notes/([9-12]{1,2})$ notes.php?grade=$1 [L]
+RewriteRule ^books/([9-12]{1,2})$ books.php?grade=$1 [L]
