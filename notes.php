@@ -52,61 +52,38 @@ if ($mode !== 'grades') {
     }
 }
 
-// --- Page Title & Breadcrumbs ---
+// --- Page Title, Breadcrumbs, and Back Button Logic ---
 $pageTitle = "Notes";
 $breadcrumbs = [
     ['url' => '/', 'text' => 'Home'],
     ['url' => '/notes', 'text' => 'Notes']
 ];
+$backLink = 'index.php'; // Default back link as requested
+$backLinkText = '← Back to Home';
 
 if ($mode === 'subjects') {
     $pageTitle = "Grade " . htmlspecialchars($grade) . " Subjects - Notes";
     $breadcrumbs[] = ['text' => 'Grade ' . htmlspecialchars($grade)];
+    $backLink = "/notes";
+    $backLinkText = "← Back to Grade Selection";
 } elseif ($mode === 'files') {
     $pageTitle = "Grade " . htmlspecialchars($grade) . " " . htmlspecialchars(ucfirst($subject)) . " Notes";
     $breadcrumbs[] = ['url' => '/notes/' . urlencode($grade), 'text' => 'Grade ' . htmlspecialchars($grade)];
     $breadcrumbs[] = ['text' => htmlspecialchars(ucfirst($subject))];
-} else {
-    $pageTitle = "Select Grade - Notes";
-}
-
-// --- Back Button Logic ---
-$backLink = 'downloads.php';
-$backLinkText = '← Back to All Downloads';
-
-if ($mode === 'files') {
     $backLink = "/notes/" . urlencode($grade);
     $backLinkText = "← Back to Subjects for Grade " . htmlspecialchars($grade);
-} elseif ($mode === 'subjects') {
-    $backLink = "/notes";
-    $backLinkText = "← Back to Grade Selection";
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <?php include 'header.php'; // Include header inside head for proper structure ?>
     <meta charset="UTF-8" />
-    <title><?php echo htmlspecialchars($pageTitle); ?> - 360 Education</title>
+    <title>Notes<?php if($grade) echo " - Grade $grade"; if($subject) echo " - " . ucfirst($subject); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="/header-footer.css" />
 </head>
 <body>
-<?php include 'header.php'; ?>
-
-<nav class="breadcrumb">
-  <div class="container">
-    <?php foreach ($breadcrumbs as $i => $crumb): ?>
-      <?php if ($i > 0) echo ' &gt; '; ?>
-      <?php if (isset($crumb['url']) && $i < count($breadcrumbs) - 1): ?>
-        <a href="<?php echo $crumb['url']; ?>"><?php echo $crumb['text']; ?></a>
-      <?php else: ?>
-        <span><?php echo $crumb['text']; ?></span>
-      <?php endif; ?>
-    <?php endforeach; ?>
-  </div>
-</nav>
-
 <main class="container" id="main-content">
     <section class="page-header centered">
         <h1>
@@ -131,7 +108,7 @@ if ($mode === 'files') {
             <ul class="item-list grade-selector">
                 <?php foreach ($visibleGrades as $g): ?>
                 <li class="item-list__item">
-                    <a href="/notes/<?php echo urlencode($g); ?>" class="btn btn--primary">
+                    <a href="notes.php?grade=<?php echo urlencode($g); ?>" class="btn btn--primary">
                         Grade <?php echo htmlspecialchars($g); ?> Notes
                     </a>
                 </li>
@@ -141,7 +118,7 @@ if ($mode === 'files') {
             <ul class="item-list">
                 <?php foreach ($items as $item): ?>
                 <li class="item-list__item">
-                    <a href="/notes/<?php echo urlencode($grade); ?>/<?php echo urlencode($item['name']); ?>" class="btn btn--primary">
+                    <a href="notes.php?grade=<?php echo urlencode($grade); ?>&subject=<?php echo urlencode($item['name']); ?>" class="btn btn--primary">
                         <?php echo htmlspecialchars(ucfirst($item['name'])); ?>
                     </a>
                 </li>
@@ -169,7 +146,7 @@ if ($mode === 'files') {
     </section>
 </main>
 <div class="back-button-container">
-    <a href="<?php echo $backLink; ?>" class="btn btn--secondary"><?php echo $backLinkText; ?></a>
+    <a href="index.php" class="btn btn--secondary">← Back to Home</a>
 </div>
 <?php include 'footer.php'; ?>
 </body>
