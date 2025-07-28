@@ -51,27 +51,6 @@ if ($mode !== 'grades') {
         }
     }
 }
-
-// --- Page Title, Breadcrumbs, and Back Button Logic ---
-$pageTitle = "Notes";
-$breadcrumbs = [
-    ['url' => '/', 'text' => 'Home'],
-    ['url' => '/notes', 'text' => 'Notes']
-];
-$backLink = 'index.php'; // Default back link as requested
-$backLinkText = '← Back to Home';
-
-if ($mode === 'subjects') {
-    $pageTitle = "Grade " . htmlspecialchars($grade) . " Subjects - Notes";
-    $breadcrumbs[] = ['text' => 'Grade ' . htmlspecialchars($grade)];
-    $backLink = "/notes";
-    $backLinkText = "← Back to Grade Selection";
-} elseif ($mode === 'files') {
-    $pageTitle = "Grade " . htmlspecialchars($grade) . " " . htmlspecialchars(ucfirst($subject)) . " Notes";
-    $breadcrumbs[] = ['url' => '/notes/' . urlencode($grade), 'text' => 'Grade ' . htmlspecialchars($grade)];
-    $breadcrumbs[] = ['text' => htmlspecialchars(ucfirst($subject))];
-    $backLink = "/notes/" . urlencode($grade);
-    $backLinkText = "← Back to Subjects for Grade " . htmlspecialchars($grade);
 ?>
 <!DOCTYPE html>
 <html lang="en">
