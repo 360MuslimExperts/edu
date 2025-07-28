@@ -209,28 +209,28 @@
         Select your class to view and download official textbooks:
       </p>
       <div class="card-grid card-grid--margin-top">
-        <a href="books.php?grade=9" class="card" aria-label="View Grade 9 textbooks">
+        <a href="/books/9" class="card" aria-label="View Grade 9 textbooks">
           <div class="card__icon number-icon" aria-hidden="true">9</div>
           <div class="card__body">
             <h3 class="card__title">Grade 9</h3>
             <p class="card__desc">All subjects for Class 9 (Matric Part 1)</p>
           </div>
         </a>
-        <a href="books.php?grade=10" class="card" aria-label="View Grade 10 textbooks">
+        <a href="/books/10" class="card" aria-label="View Grade 10 textbooks">
           <div class="card__icon number-icon" aria-hidden="true">10</div>
           <div class="card__body">
             <h3 class="card__title">Grade 10</h3>
             <p class="card__desc">All subjects for Class 10 (Matric Part 2)</p>
           </div>
         </a>
-        <a href="books.php?grade=11" class="card" aria-label="View Grade 11 textbooks">
+        <a href="/books/11" class="card" aria-label="View Grade 11 textbooks">
           <div class="card__icon number-icon" aria-hidden="true">11</div>
           <div class="card__body">
             <h3 class="card__title">Grade 11</h3>
             <p class="card__desc">All subjects for Class 11 (1st Year)</p>
           </div>
         </a>
-        <a href="books.php?grade=12" class="card" aria-label="View Grade 12 textbooks">
+        <a href="/books/12" class="card" aria-label="View Grade 12 textbooks">
           <div class="card__icon number-icon" aria-hidden="true">12</div>
           <div class="card__body">
             <h3 class="card__title">Grade 12</h3>
@@ -252,28 +252,28 @@
         Select your class to view and download official notes:
       </p>
       <div class="card-grid card-grid--margin-top">
-        <a href="notes.php?grade=9" class="card" aria-label="View Grade 9 Notes">
+        <a href="/notes/9" class="card" aria-label="View Grade 9 Notes">
           <div class="card__icon number-icon" aria-hidden="true">9</div>
           <div class="card__body">
             <h3 class="card__title">Grade 9</h3>
             <p class="card__desc">All subjects for Class 9 (Matric Part 1)</p>
           </div>
         </a>
-        <a href="notes.php?grade=10" class="card" aria-label="View Grade 10 Notes">
+        <a href="/notes/10" class="card" aria-label="View Grade 10 Notes">
           <div class="card__icon number-icon" aria-hidden="true">10</div>
           <div class="card__body">
             <h3 class="card__title">Grade 10</h3>
             <p class="card__desc">All subjects for Class 10 (Matric Part 2)</p>
           </div>
         </a>
-        <a href="notes.php?grade=11" class="card" aria-label="View Grade 11 Notes">
+        <a href="/notes/11" class="card" aria-label="View Grade 11 Notes">
           <div class="card__icon number-icon" aria-hidden="true">11</div>
           <div class="card__body">
             <h3 class="card__title">Grade 11</h3>
             <p class="card__desc">All subjects for Class 11 (1st Year)</p>
           </div>
         </a>
-        <a href="notes.php?grade=12" class="card" aria-label="View Grade 12 Notes">
+        <a href="/notes/12" class="card" aria-label="View Grade 12 Notes">
           <div class="card__icon number-icon" aria-hidden="true">12</div>
           <div class="card__body">
             <h3 class="card__title">Grade 12</h3>
@@ -282,7 +282,7 @@
         </a>
       </div>
       <div class="quick-access-actions quick-access-actions--margin-top">
-        <a href="notes.php" class="btn btn--lg btn--primary">📥 View All Notes</a>
+        <a href="/notes" class="btn btn--lg btn--primary">📥 View All Notes</a>
       </div>
     </div>
   </section>
