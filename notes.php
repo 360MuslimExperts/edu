@@ -59,8 +59,8 @@ if ($mode !== 'grades') {
     <meta charset="UTF-8" />
     <title>Notes<?php if($grade) echo " - Grade $grade"; if($subject) echo " - " . ucfirst($subject); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="header-footer.css" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/header-footer.css" />
 </head>
 <body>
 <main class="container" id="main-content">
