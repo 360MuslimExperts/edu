@@ -23,10 +23,10 @@ function isActive($page) {
           <a href="/" class="<?php echo isActive('index.php'); ?>"<?php if(isActive('index.php')) echo ' aria-current="page"'; ?>>Home</a>
         </li>
         <li>
-          <a href="books.php" class="<?php echo isActive('books.php'); ?>"<?php if(isActive('books.php')) echo ' aria-current="page"'; ?>>Books</a>
+          <a href="/books" class="<?php echo isActive('/books'); ?>"<?php if(isActive('/books')) echo ' aria-current="page"'; ?>>Books</a>
         </li>
         <li>
-          <a href="notes.php" class="<?php echo isActive('notes.php'); ?>"<?php if(isActive('notes.php')) echo ' aria-current="page"'; ?>>Notes</a>
+          <a href="/notes" class="<?php echo isActive('/notes'); ?>"<?php if(isActive('/notes')) echo ' aria-current="page"'; ?>>Notes</a>
         </li>
         <!-- Optionally add a syllabus link if available -->
         <!-- <li>
