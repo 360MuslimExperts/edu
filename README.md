@@ -70,7 +70,7 @@ The application includes several security measures:
 ## Project Structure
 ```
 edu-360ME/
-├── assets/              # Images and static assets
+├── .htaccess            # config for clear links
 ├── index.php            # Homepage
 ├── books.php            # Lists books by grade
 ├── notes.php            # Lists notes by grade/subject
