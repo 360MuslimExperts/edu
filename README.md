@@ -27,6 +27,7 @@ This project provides free access to official **Punjab Curriculum & Textbook Boa
 ## Technology Stack
 - **Backend**: Vanilla PHP
 - **Frontend**: HTML5, CSS3 (with CSS Variables), Vanilla JavaScript
+- **Web Server**: Apache (for `.htaccess` clean URLs)
 - **PDF Rendering**: PDF.js
 - **APIs**:
   - **Content API**: Fetches file lists from a private endpoint on `360muslimexperts.com`.
@@ -55,14 +56,14 @@ This project provides free access to official **Punjab Curriculum & Textbook Boa
 4.  Access the project via your local server URL (e.g., `http://localhost/edu-360ME/`).
 
 ## API Dependency
-This website is a **frontend client** and does not host the PDF files or the file listings itself. All content (lists of books and notes) is fetched from a private API endpoint:
+This website functions as a **client-side application** and does not host the PDF files or the file listings itself. All content (lists of books and notes) is fetched from a private API endpoint:
 `https://360muslimexperts.com/panel/edu_api.php`
 
-This means that to run the project locally, the live API must be accessible. The PDF files themselves are also hosted on the `360muslimexperts.com` domain.
+This means that for the project to run, the live API must be accessible. The PDF files themselves are also hosted on the `360muslimexperts.com` domain and are fetched via a proxy script.
 
 ## Security
 The application includes several security measures:
-- **PDF Proxy**: The `view-pdf.php` script includes a proxy to securely fetch PDFs from the allowed domain (`360muslimexperts.com`), preventing Cross-Origin (CORS) issues while restricting access to other domains.
+- **PDF Proxy**: The `view-pdf.php` script acts as a server-side proxy to fetch PDFs from the `360muslimexperts.com` domain. This bypasses browser Cross-Origin (CORS) restrictions and prevents direct exposure of the source file path.
 - **Security Headers**: Standard security headers like `Content-Security-Policy`, `X-Frame-Options`, and `X-XSS-Protection` are set to mitigate common web vulnerabilities.
 - **Input Sanitization**: All user input (e.g., `$_GET` parameters) is sanitized using PHP filters to prevent XSS and other injection attacks.
 - **Secret Management**: The `config.php` file, which contains API keys, is explicitly excluded from version control via `.gitignore`.
@@ -76,14 +77,21 @@ edu-360ME/
 ├── notes.php            # Lists notes by grade/subject
 ├── downloads.php        # Lists all available content
 ├── view-pdf.php         # The PDF.js viewer and proxy
-├── header.php           # Shared header component
-├── footer.php           # Shared footer component (includes newsletter logic)
-├── subscribe.php        # Handles newsletter form submission
-├── helpers.php          # Utility functions (e.g., formatBytes)
-├── config.php           # (You must create this) API keys and secrets
 ├── sitemap.xml          # Sitemap for SEO
 ├── robots.txt           # Instructions for web crawlers
 └── README.md            # This file
+
+    includes
+      ├── header.php           # Shared header component
+      ├── footer.php           # Shared footer component (includes newsletter logic)
+      ├── subscribe.php        # Handles newsletter form submission
+      ├── helpers.php          # Utility functions (e.g., formatBytes)
+      ├── config.php           # (You must create this) API keys and secrets
+    css
+      ├── style.css
+      ├── header-footer.css
+      ├── view-pdf.css
+
 ```
 
 ## Contributing
@@ -105,4 +113,3 @@ This project is licensed under the MIT License.
 - **Primary Contact**: Ibtisam Shahid
 - **Organization**: 360 Muslim Experts
 - **WhatsApp**: +92 321 2584393
-
