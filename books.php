@@ -134,7 +134,7 @@ if (!$gradeKey) {
 </section>
 </main>
 <div class="back-button-container">
-  <a href="downloads.php" class="btn btn--secondary">← Back to All Downloads</a>
+  <a href="/" class="btn btn--secondary">← Back to Home</a>
 </div>
 <?php include 'footer.php'; ?>
 </body>
