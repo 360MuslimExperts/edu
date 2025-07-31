@@ -1,7 +1,7 @@
 <footer class="site-footer">
   <div class="container">
     
-    <div class="newsletter" id="newsletter-section">
+    <!-- <div class="newsletter" id="newsletter-section">
       <h3>Subscribe to our Newsletter</h3>
       <form id="newsletter-form" action="includes/subscribe.php" method="POST" autocomplete="off" novalidate>
         <label for="newsletter-email" class="visually-hidden">Email address</label>
@@ -9,7 +9,7 @@
         <button type="submit" class="btn btn--primary">Subscribe</button>
       </form>
       <div id="newsletter-message" class="newsletter-message" aria-live="polite"></div>
-    </div>
+    </div> -->
     
     <div class="footer-social">
       <?php
