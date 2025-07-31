@@ -55,7 +55,7 @@ if ($mode !== 'grades') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include 'header.php'; // Include header inside head for proper structure ?>
+    <!-- Include header inside head for proper structure -->
     <meta charset="UTF-8" />
     <title>Notes<?php if($grade) echo " - Grade $grade"; if($subject) echo " - " . ucfirst($subject); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -63,6 +63,17 @@ if ($mode !== 'grades') {
     <link rel="stylesheet" href="/header-footer.css" />
 </head>
 <body>
+     <?php include 'header.php'; ?>
+     <?php
+$pageHeading = "Notes - $subject for Grade $grade";
+$breadcrumbItems = [
+  "Downloads" => "/downloads",
+  "Notes" => "/notes",
+  "Grade $grade" => "/notes/$grade",
+  ucfirst($subject) => null
+];
+include("breadcrumb.php");
+?>
 <main class="container" id="main-content">
     <section class="page-header centered">
         <h1>
