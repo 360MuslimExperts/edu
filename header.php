@@ -29,12 +29,10 @@ function isActive($path) {
         <li>
           <a href="/notes" class="<?php echo isActive('/notes'); ?>" <?php if (isActive('/notes')) echo 'aria-current="page"'; ?>>Notes</a>
         </li>
-        <!-- Optionally add a syllabus link if available -->
-        <!--
         <li>
-          <a href="/syllabus" class="<?php echo isActive('/syllabus'); ?>" <?php if (isActive('/syllabus')) echo 'aria-current="page"'; ?>>2025 Syllabus</a>
+          <a href="/downloads" class="<?php echo isActive('/downloads'); ?>" <?php if (isActive('/downloads')) echo 'aria-current="page"'; ?>>Downloads</a>
         </li>
-        -->
+       
         <li>
           <a href="https://ibt.360muslimexperts.com" target="_blank" rel="noopener noreferrer" aria-label="About 360 Muslim Experts">About</a>
         </li>
