@@ -87,6 +87,7 @@ edu-360ME/
       ├── subscribe.php        # Handles newsletter form submission
       ├── helpers.php          # Utility functions (e.g., formatBytes)
       ├── config.php           # (You must create this) API keys and secrets
+      ├── breadcrumb.php
     css
       ├── style.css
       ├── header-footer.css
