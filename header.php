@@ -1,6 +1,7 @@
 <?php
-function isActive($page) {
-    return basename($_SERVER['PHP_SELF']) === $page ? 'active' : '';
+function isActive($path) {
+    $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    return rtrim($currentPath, '/') === rtrim($path, '/') ? 'active' : '';
 }
 ?>
 <header class="site-header" role="banner">
@@ -20,18 +21,20 @@ function isActive($page) {
     <nav class="navbar" id="navbar-menu" role="navigation" aria-label="Main navigation">
       <ul>
         <li>
-          <a href="/" class="<?php echo isActive('index.php'); ?>"<?php if(isActive('index.php')) echo ' aria-current="page"'; ?>>Home</a>
+          <a href="/" class="<?php echo isActive('/'); ?>" <?php if (isActive('/')) echo 'aria-current="page"'; ?>>Home</a>
         </li>
         <li>
-          <a href="/books" class="<?php echo isActive('/books'); ?>"<?php if(isActive('/books')) echo ' aria-current="page"'; ?>>Books</a>
+          <a href="/books" class="<?php echo isActive('/books'); ?>" <?php if (isActive('/books')) echo 'aria-current="page"'; ?>>Books</a>
         </li>
         <li>
-          <a href="/notes" class="<?php echo isActive('/notes'); ?>"<?php if(isActive('/notes')) echo ' aria-current="page"'; ?>>Notes</a>
+          <a href="/notes" class="<?php echo isActive('/notes'); ?>" <?php if (isActive('/notes')) echo 'aria-current="page"'; ?>>Notes</a>
         </li>
         <!-- Optionally add a syllabus link if available -->
-        <!-- <li>
-          <a href="syllabus.php" class="<?php echo isActive('syllabus.php'); ?>"<?php if(isActive('syllabus.php')) echo ' aria-current="page"'; ?>>2025 Syllabus</a>
-        </li> -->
+        <!--
+        <li>
+          <a href="/syllabus" class="<?php echo isActive('/syllabus'); ?>" <?php if (isActive('/syllabus')) echo 'aria-current="page"'; ?>>2025 Syllabus</a>
+        </li>
+        -->
         <li>
           <a href="https://ibt.360muslimexperts.com" target="_blank" rel="noopener noreferrer" aria-label="About 360 Muslim Experts">About</a>
         </li>
