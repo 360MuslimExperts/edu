@@ -1,7 +1,7 @@
 <?php
 // --- SETUP AND HELPERS ---
 require_once __DIR__ . 'includes/config.php';
-require_once __DIR__ . 'includes/helpers.php';
+require_once __DIR__ . '/includes/helpers.php';
 
 // Security headers - MUST be before any output
 header('X-Frame-Options: SAMEORIGIN');
