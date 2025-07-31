@@ -29,7 +29,7 @@ $pageTitle = "404 Page Not Found - 360 Education";
 </head>
 <body>
   <a href="#main-content" class="visually-hidden focusable skip-link">Skip to main content</a>
-  <?php include 'header.php'; ?>
+  <?php include 'includes/header.php'; ?>
 
   <main id="main-content" class="container">
     <section class="error-page">
@@ -46,6 +46,6 @@ $pageTitle = "404 Page Not Found - 360 Education";
     </section>
   </main>
 
-  <?php include 'footer.php'; ?>
+  <?php include 'includes/footer.php'; ?>
 </body>
 </html>
