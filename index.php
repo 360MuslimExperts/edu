@@ -239,7 +239,7 @@
         </a>
       </div>
       <div class="quick-access-actions quick-access-actions--margin-top">
-        <a href="/downloads" class="btn btn--lg btn--primary">📥 View All Books</a>
+        <a href="/books" class="btn btn--lg btn--primary">📥 View All Books</a>
       </div>
     </div>
   </section>
