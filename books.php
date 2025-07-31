@@ -59,7 +59,7 @@ function generateListItem($file, $url, $size) {
     $output .= '<span class="file-meta">(' . $formattedSize . ')</span>';
     $output .= '</div>';
     $output .= '<div class="item-list__actions download-actions">';
-    $output .= '<a href="view-pdf.php?file=' . rawurlencode($url) . '" class="btn btn--primary" target="_blank" rel="noopener">';
+    $output .= '<a href="/view-pdf.php?file=' . rawurlencode($url) . '" class="btn btn--primary" target="_blank" rel="noopener">';
     $output .= '<span class="btn__text">View PDF</span></a>';
     $output .= '<a href="' . htmlspecialchars($url) . '" class="btn btn--primary download-button" download>';
     $output .= '<span class="btn__text">Download PDF</span></a>';
