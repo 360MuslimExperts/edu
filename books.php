@@ -86,13 +86,14 @@ function generateListItem($file, $url, $size) {
 <body>
 <?php include 'header.php'; ?>
 
-<nav class="breadcrumb">
-  <div class="container">
-    <a href="index.php">Home</a> &gt;
-    <a href="downloads.php">Downloads</a> &gt;
-    <span><?php echo htmlspecialchars($pageHeading); ?></span>
-  </div>
-</nav>
+<?php
+$pageHeading = "Books - Grade $grade";
+$breadcrumbItems = [
+  "Books" => "/books",
+  "Grade " . $grade => "/books/$grade",
+];
+include("breadcrumb.php");
+?>
 
 <section class="page-header centered">
   <h1><?php echo htmlspecialchars($pageHeading); ?></h1>
