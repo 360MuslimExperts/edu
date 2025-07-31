@@ -14,12 +14,12 @@ $query = htmlspecialchars($_GET['query'] ?? '', ENT_QUOTES, 'UTF-8');
   <link rel="stylesheet" href="header-footer.css">
 </head>
 <body>
-  <?php include 'header.php'; ?>
+  <?php include '/includes/header.php'; ?>
   <main class="container">
     <h1>Search Results</h1>
     <p>Showing results for: <strong><?php echo $query; ?></strong></p>
     <!-- Add logic to display search results here -->
   </main>
-  <?php include 'footer.php'; ?>
+  <?php include '/includes/footer.php'; ?>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/includes/helpers.php';
 
 // --- Configuration ---
 $visibleGrades = ['9', '10', '11', '12'];
@@ -58,11 +58,11 @@ if ($mode !== 'grades') {
     <meta charset="UTF-8" />
     <title>Notes<?php if($grade) echo " - Grade $grade"; if($subject) echo " - " . ucfirst($subject); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/style.css" />
-    <link rel="stylesheet" href="/header-footer.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/header-footer.css" />
 </head>
 <body>
-<?php include 'header.php'; ?>
+<?php include '/includes/header.php'; ?>
 <?php
 $pageHeading = "Notes";
 $breadcrumbItems = [
@@ -79,7 +79,7 @@ if (!empty($subject)) {
     $pageHeading .= " for Grade $grade";
   }
 }
-include("breadcrumb.php");
+include("/includes/breadcrumb.php");
 ?>
 <main class="container" id="main-content">
     <section class="page-header centered">
@@ -145,6 +145,6 @@ include("breadcrumb.php");
 <div class="back-button-container">
     <a href="/" class="btn btn--secondary">← Back to Home</a>
 </div>
-<?php include 'footer.php'; ?>
+<?php include '/includes/footer.php'; ?>
 </body>
 </html>

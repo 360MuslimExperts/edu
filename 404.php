@@ -11,8 +11,8 @@ $pageTitle = "404 Page Not Found - 360 Education";
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?php echo $pageTitle; ?></title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="header-footer.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/header-footer.css">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <meta name="robots" content="noindex"> <!-- Tell search engines not to index this page -->
   <meta name="description" content="Page not found. 360 Education – Free 2025 PCTB new syllabus, textbooks, notes, past papers, model papers, solved exercises, and study material for Matric, FSC, and all grades.">

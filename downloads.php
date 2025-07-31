@@ -1,7 +1,7 @@
 <?php
 // --- SETUP AND HELPERS ---
-require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/helpers.php';
 
 // Security headers - MUST be before any output
 header('X-Frame-Options: SAMEORIGIN');
@@ -28,8 +28,8 @@ header('X-XSS-Protection: 1; mode=block');
   <meta name="twitter:title" content="Download 2025 PCTB Books, Notes, Syllabus, Past Papers | 360 Education">
   <meta name="twitter:description" content="Free download of 2025 PCTB new syllabus, textbooks, notes, past papers, model papers, and study material for Matric, FSC, and all grades.">
   <meta name="twitter:image" content="https://edu.360muslimexperts.com/assets/og-image.jpg">
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="header-footer.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/header-footer.css" />
   <style>
     /* Utility: Visually hidden (for accessibility) */
     .visually-hidden {
@@ -75,7 +75,7 @@ header('X-XSS-Protection: 1; mode=block');
 </head>
 <body>
 <a href="#main-content" class="visually-hidden focusable skip-link">Skip to main content</a>
-<?php include 'header.php'; ?>
+<?php include '/includes/header.php'; ?>
   <main class="downloads-page" id="main-content" role="main">
     <section class="page-title-section">
       <h2>Download Your Books & Notes</h2>
@@ -260,6 +260,6 @@ if (!$anyContentFound) {
     }
   });
   </script>
-  <?php include 'footer.php'; ?>
+  <?php include '/includes/footer.php'; ?>
 </body>
 </html>

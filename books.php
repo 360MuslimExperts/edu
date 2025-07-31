@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/includes/helpers.php';
 
 // --- Define visible and merged grades ---
 $visibleGrades = ['9', '10', '11', '12'];
@@ -73,8 +73,8 @@ function generateListItem($file, $url, $size) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title><?php echo htmlspecialchars($pageTitle); ?></title>
-  <link rel="stylesheet" href="/style.css" />
-  <link rel="stylesheet" href="/header-footer.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/header-footer.css" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9TMPM9XPW"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -95,7 +95,7 @@ if (!empty($grade)) {
   $pageHeading = "Books - Grade $grade";
   $breadcrumbItems["Grade $grade"] = null;
 }
-include("breadcrumb.php");
+include("/includes/breadcrumb.php");
 ?>
 <section class="page-header centered">
   <h1><?php echo htmlspecialchars($pageHeading); ?></h1>

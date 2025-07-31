@@ -83,13 +83,13 @@ if (!$fileUrl || !filter_var($fileUrl, FILTER_VALIDATE_URL)) {
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title><?php echo htmlspecialchars($pageTitle); ?></title>
-<link rel="stylesheet" href="style.css" />
-<link rel="stylesheet" href="header-footer.css" />
-<link rel="stylesheet" href="view-pdf.css" />
+<link rel="stylesheet" href="/css/style.css" />
+<link rel="stylesheet" href="/css/header-footer.css" />
+<link rel="stylesheet" href="/css/view-pdf.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
-  <?php include 'header.php'; ?>
+  <?php include '/includes/header.php'; ?>
 
 <?php if (!empty($errorMsg)): ?><div class="pdf-viewer-body"> <!-- Apply themed body class -->
 <div id="header">
@@ -440,6 +440,6 @@ function displayJsError(message) {
 
 </script>
 <?php endif; ?>
-<?php include 'footer.php'; ?>
+<?php include '/includes/footer.php'; ?>
 </body>
 </html>

@@ -10,8 +10,8 @@
   <meta name="author" content="360 Muslim Experts">
 
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="header-footer.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/header-footer.css" />
   <link rel="canonical" href="https://edu.360muslimexperts.com/index.php" />
   <meta name="robots" content="index, follow">
 
@@ -179,7 +179,7 @@
       document.getElementById('loading-spinner').style.display = 'none';
     });
   </script>
-  <?php include 'header.php'; ?>
+  <?php include '/includes/header.php'; ?>
 
 
 <main id="main-content" role="main">
@@ -287,6 +287,6 @@
     </div>
   </section>
 </main>
-<?php include 'footer.php'; ?>
+<?php include '/includes/footer.php'; ?>
 </body>
 </html>
