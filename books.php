@@ -84,7 +84,7 @@ function generateListItem($file, $url, $size) {
   </script>
 </head>
 <body>
-<?php include 'header.php'; ?>
+<?php include 'includes/header.php'; ?>
 <?php
 $grade = $_GET['grade'] ?? null;
 $pageHeading = "Books";
@@ -136,6 +136,6 @@ if (!$gradeKey) {
 <div class="back-button-container">
   <a href="/" class="btn btn--secondary">← Back to Home</a>
 </div>
-<?php include 'footer.php'; ?>
+<?php include 'includes/footer.php'; ?>
 </body>
 </html>
