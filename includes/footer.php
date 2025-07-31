@@ -3,7 +3,7 @@
     
     <div class="newsletter" id="newsletter-section">
       <h3>Subscribe to our Newsletter</h3>
-      <form id="newsletter-form" action="subscribe.php" method="POST" autocomplete="off" novalidate>
+      <form id="newsletter-form" action="includes/subscribe.php" method="POST" autocomplete="off" novalidate>
         <label for="newsletter-email" class="visually-hidden">Email address</label>
         <input type="email" id="newsletter-email" name="email" placeholder="Enter your email" required>
         <button type="submit" class="btn btn--primary">Subscribe</button>
