@@ -782,7 +782,7 @@ html[lang] { font-family: var(--font-primary); }
 /* === BACK TO TOP BUTTON === */
 .back-to-top {
   text-align: center;
-  margin-top: var(--spacing-lg);
+  margin-top: var(--spacing-md);
   margin-bottom: var(--spacing-md);
 }
 
