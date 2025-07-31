@@ -87,7 +87,7 @@ if ($mode !== 'grades') {
             <ul class="item-list grade-selector">
                 <?php foreach ($visibleGrades as $g): ?>
                 <li class="item-list__item">
-                    <a href="notes.php?grade=<?php echo urlencode($g); ?>" class="btn btn--primary">
+                    <a href="/notes/<?php echo urlencode($g); ?>" class="btn btn--primary">
                         Grade <?php echo htmlspecialchars($g); ?> Notes
                     </a>
                 </li>
@@ -97,7 +97,7 @@ if ($mode !== 'grades') {
             <ul class="item-list">
                 <?php foreach ($items as $item): ?>
                 <li class="item-list__item">
-                    <a href="notes.php?grade=<?php echo urlencode($grade); ?>&subject=<?php echo urlencode($item['name']); ?>" class="btn btn--primary">
+                    <a href="/notes/<?php echo urlencode($grade); ?>/<?php echo urlencode($item['name']); ?>" class="btn btn--primary">
                         <?php echo htmlspecialchars(ucfirst($item['name'])); ?>
                     </a>
                 </li>
@@ -125,7 +125,7 @@ if ($mode !== 'grades') {
     </section>
 </main>
 <div class="back-button-container">
-    <a href="index.php" class="btn btn--secondary">← Back to Home</a>
+    <a href="/" class="btn btn--secondary">← Back to Home</a>
 </div>
 <?php include 'footer.php'; ?>
 </body>
