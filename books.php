@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . 'includes/helpers.php';
+require_once __DIR__ . '/includes/helpers.php';
 
 // --- Define visible and merged grades ---
 $visibleGrades = ['9', '10', '11', '12'];
