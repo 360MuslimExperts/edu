@@ -85,16 +85,18 @@ function generateListItem($file, $url, $size) {
 </head>
 <body>
 <?php include 'header.php'; ?>
-
 <?php
-$pageHeading = "Books - Grade $grade";
+$grade = $_GET['grade'] ?? null;
+$pageHeading = "Books";
 $breadcrumbItems = [
-  "Books" => "/books",
-  "Grade " . $grade => null  // no subject, so grade is final
+  "Books" => "/books"
 ];
+if (!empty($grade)) {
+  $pageHeading = "Books - Grade $grade";
+  $breadcrumbItems["Grade $grade"] = null;
+}
 include("breadcrumb.php");
 ?>
-
 <section class="page-header centered">
   <h1><?php echo htmlspecialchars($pageHeading); ?></h1>
   <p class="subtitle">Explore and download official PCTB textbooks.</p>
@@ -131,11 +133,9 @@ if (!$gradeKey) {
 ?>
 </section>
 </main>
-
 <div class="back-button-container">
   <a href="downloads.php" class="btn btn--secondary">← Back to All Downloads</a>
 </div>
-
 <?php include 'footer.php'; ?>
 </body>
 </html>

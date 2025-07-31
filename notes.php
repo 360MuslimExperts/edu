@@ -55,7 +55,6 @@ if ($mode !== 'grades') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Include header inside head for proper structure -->
     <meta charset="UTF-8" />
     <title>Notes<?php if($grade) echo " - Grade $grade"; if($subject) echo " - " . ucfirst($subject); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -70,8 +69,6 @@ $breadcrumbItems = [
   "Downloads" => "/downloads",
   "Notes" => "/notes",
 ];
-
-// Add grade and subject if present
 if (!empty($grade)) {
   $breadcrumbItems["Grade $grade"] = "/notes/$grade";
 }
@@ -82,10 +79,8 @@ if (!empty($subject)) {
     $pageHeading .= " for Grade $grade";
   }
 }
-
 include("breadcrumb.php");
 ?>
-
 <main class="container" id="main-content">
     <section class="page-header centered">
         <h1>
