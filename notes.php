@@ -63,17 +63,29 @@ if ($mode !== 'grades') {
     <link rel="stylesheet" href="/header-footer.css" />
 </head>
 <body>
-     <?php include 'header.php'; ?>
-     <?php
-$pageHeading = "Notes - $subject for Grade $grade";
+<?php include 'header.php'; ?>
+<?php
+$pageHeading = "Notes";
 $breadcrumbItems = [
   "Downloads" => "/downloads",
   "Notes" => "/notes",
-  "Grade $grade" => "/notes/$grade",
-  ucfirst($subject) => null
 ];
+
+// Add grade and subject if present
+if (!empty($grade)) {
+  $breadcrumbItems["Grade $grade"] = "/notes/$grade";
+}
+if (!empty($subject)) {
+  $breadcrumbItems[ucfirst($subject)] = null;
+  $pageHeading = "Notes - " . ucfirst($subject);
+  if (!empty($grade)) {
+    $pageHeading .= " for Grade $grade";
+  }
+}
+
 include("breadcrumb.php");
 ?>
+
 <main class="container" id="main-content">
     <section class="page-header centered">
         <h1>
