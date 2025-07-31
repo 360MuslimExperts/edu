@@ -106,7 +106,7 @@ if (!$gradeKey) {
     echo '<h2>Select a Grade</h2>';
     echo '<ul class="item-list grade-selector">';
     foreach ($visibleGrades as $grade) {
-        echo '<li><a class="btn btn--primary" href="?grade=' . $grade . '">Grade ' . $grade . '</a></li>';
+        echo '<li><a class="btn btn--primary" href="/books/' . $grade . '">Grade ' . $grade . '</a></li>';
     }
     echo '</ul>';
 } elseif (!in_array($gradeKey, $visibleGrades)) {
