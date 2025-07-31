@@ -1,6 +1,6 @@
 <nav class="breadcrumb">
   <div class="container">
-    <a href="/index.php">Home</a>
+    <a href="/">Home</a>
     <?php
     if (!empty($breadcrumbItems)) {
       foreach ($breadcrumbItems as $label => $link) {

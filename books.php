@@ -90,7 +90,7 @@ function generateListItem($file, $url, $size) {
 $pageHeading = "Books - Grade $grade";
 $breadcrumbItems = [
   "Books" => "/books",
-  "Grade " . $grade => "/books/$grade",
+  "Grade " . $grade => null  // no subject, so grade is final
 ];
 include("breadcrumb.php");
 ?>
