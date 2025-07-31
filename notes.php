@@ -133,7 +133,7 @@ include("breadcrumb.php");
                         <span class="file-meta">(<?php echo $formattedSize; ?>)</span>
                     </div>
                     <div class="item-list__actions download-actions">
-                        <a href="view-pdf.php?file=<?php echo rawurlencode($file['url']); ?>" class="btn btn--primary" target="_blank" rel="noopener">View PDF</a>
+                        <a href="/view-pdf.php?file=<?php echo rawurlencode($file['url']); ?>" class="btn btn--primary" target="_blank" rel="noopener">View PDF</a>
                         <a href="<?php echo htmlspecialchars($file['url']); ?>" class="btn btn--primary" download>Download PDF</a>
                     </div>
                 </li>
