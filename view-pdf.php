@@ -89,7 +89,7 @@ if (!$fileUrl || !filter_var($fileUrl, FILTER_VALIDATE_URL)) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
-  <?php include '/includes/header.php'; ?>
+  <?php include 'includes/header.php'; ?>
 
 <?php if (!empty($errorMsg)): ?><div class="pdf-viewer-body"> <!-- Apply themed body class -->
 <div id="header">
@@ -440,6 +440,6 @@ function displayJsError(message) {
 
 </script>
 <?php endif; ?>
-<?php include '/includes/footer.php'; ?>
+<?php include 'includes/footer.php'; ?>
 </body>
 </html>

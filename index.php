@@ -179,7 +179,7 @@
       document.getElementById('loading-spinner').style.display = 'none';
     });
   </script>
-  <?php include '/includes/header.php'; ?>
+  <?php include 'includes/header.php'; ?>
 
 
 <main id="main-content" role="main">
@@ -287,6 +287,6 @@
     </div>
   </section>
 </main>
-<?php include '/includes/footer.php'; ?>
+<?php include 'includes/footer.php'; ?>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <?php
 // --- SETUP AND HELPERS ---
-require_once __DIR__ . '/includes/config.php';
-require_once __DIR__ . '/includes/helpers.php';
+require_once __DIR__ . 'includes/config.php';
+require_once __DIR__ . 'includes/helpers.php';
 
 // Security headers - MUST be before any output
 header('X-Frame-Options: SAMEORIGIN');
@@ -75,7 +75,7 @@ header('X-XSS-Protection: 1; mode=block');
 </head>
 <body>
 <a href="#main-content" class="visually-hidden focusable skip-link">Skip to main content</a>
-<?php include '/includes/header.php'; ?>
+<?php include 'includes/header.php'; ?>
   <main class="downloads-page" id="main-content" role="main">
     <section class="page-title-section">
       <h2>Download Your Books & Notes</h2>
@@ -260,6 +260,6 @@ if (!$anyContentFound) {
     }
   });
   </script>
-  <?php include '/includes/footer.php'; ?>
+  <?php include 'includes/footer.php'; ?>
 </body>
 </html>

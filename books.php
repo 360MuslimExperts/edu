@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/includes/helpers.php';
+require_once __DIR__ . 'includes/helpers.php';
 
 // --- Define visible and merged grades ---
 $visibleGrades = ['9', '10', '11', '12'];
@@ -95,7 +95,7 @@ if (!empty($grade)) {
   $pageHeading = "Books - Grade $grade";
   $breadcrumbItems["Grade $grade"] = null;
 }
-include("/includes/breadcrumb.php");
+include("includes/breadcrumb.php");
 ?>
 <section class="page-header centered">
   <h1><?php echo htmlspecialchars($pageHeading); ?></h1>
