@@ -28,7 +28,7 @@
     </div>
 
     <p>&copy; <?php echo date("Y"); ?> |
-      <a href="https://360muslimexperts.com" aria-label="Visit 360 Muslim Experts website" class="footer-link">360 Muslim Experts</a> | Made by <a href="https://salamprojects.github.io/" target="_blank" aria-label="Made by Salam Projects" class="footer-link">Salam Projects</a>
+      <a href="https://360muslimexperts.com" aria-label="Visit 360 Muslim Experts website" class="footer-link">360 Muslim Experts</a> | Made by <a href="https://salamprojects.github.io/" target="_blank" aria-label="Made by SalamProjects" class="footer-link">Salam Projects</a>
     </p>
 
     <div class="back-to-top">
